@@ -3,195 +3,155 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Turundushub – kodulehed ja Google Mapsi profiilid</title>
+<title>Turundushub – kodulehed, haldus ja Google Mapsi profiilid</title>
 <meta name="description" content="Turundushub ehitab ja haldab kodulehti ning korrastab Google Mapsi profiile, et kliendid leiaksid sinu ettevõtte üles.">
 <meta property="og:title" content="Turundushub">
-<meta property="og:description" content="Kodulehed ja Google Mapsi profiilid väikeettevõtetele.">
+<meta property="og:description" content="Kodulehed, veebilehe haldus ja Google Mapsi profiilid.">
 <meta property="og:image" content="https://turundushub.ee/logo.png">
 <meta name="theme-color" content="#0b0f19">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..700&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+<div class="glow" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><span></span></div>
+
 <header class="top">
-  <div class="wrap top-inner">
-    <a href="#" class="logo" aria-label="Turundushub avaleht">Turundus<br>Hub</a>
-    <nav class="nav" aria-label="Peamenüü">
-      <a href="#teenused">Teenused</a>
-      <a href="#protsess">Kuidas töötame</a>
-      <a href="#meist">Meist</a>
-      <a href="#kontakt" class="nav-cta">Küsi pakkumist</a>
-    </nav>
-  </div>
+  <a href="#" class="logo" aria-label="Turundushub avaleht">Turundus<br>Hub</a>
+  <nav class="nav" aria-label="Peamenüü">
+    <a href="#teenused">Teenused</a>
+    <a href="#protsess">Protsess</a>
+    <a href="#meist">Meist</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+  <a href="#kontakt" class="btn btn-solid top-cta">Küsi pakkumist</a>
 </header>
 
 <main>
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <h1>Kui keegi otsib “lähedal”, peaks ta leidma sinu.</h1>
-        <p class="lead">Ehitame väikeettevõtetele kodulehti, hoiame need korras ja seame Google Mapsi profiili nii, et kliendid näevad sind enne konkurenti.</p>
-        <div class="hero-actions">
-          <a href="#kontakt" class="btn btn-primary">Küsi pakkumist</a>
-          <a href="#teenused" class="btn btn-ghost">Vaata teenuseid</a>
-        </div>
-      </div>
+    <h1 class="hero-title">
+      <span class="line l1"><span>Teeme sind</span></span>
+      <span class="line l2"><span>leitavaks</span></span>
+      <span class="line l3"><span>internetis</span></span>
+    </h1>
+    <div class="hero-sub">
+      <p class="hero-list">
+        <span>Kodulehed,</span>
+        <span>veebilehe haldus,</span>
+        <span>Google Mapsi profiilid</span>
+      </p>
+    </div>
+    <p class="hero-note">Aitame kohalikel ettevõtetel internetis silma paista. Ehitame lehe, hoiame selle korras ja seame Google Mapsi profiili nii, et klient leiab sinu enne konkurenti.</p>
+    <a href="#teenused" class="scroll-hint" aria-label="Keri teenuste juurde"><span></span></a>
+  </section>
 
-      <div class="map" aria-hidden="true">
-        <div class="map-search">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <span class="typed">juuksur lähedal</span>
-        </div>
-        <svg class="map-roads" viewBox="0 0 400 300" preserveAspectRatio="none">
-          <path d="M-10 210 C 80 190, 140 240, 230 200 S 360 150, 420 170" />
-          <path d="M120 -10 C 130 80, 100 160, 150 310" />
-          <path d="M300 -10 C 280 90, 320 200, 290 310" />
-          <path class="minor" d="M-10 90 C 90 110, 200 60, 420 95" />
-        </svg>
-        <span class="pin pin-dim" style="left:18%;top:62%"></span>
-        <span class="pin pin-dim" style="left:78%;top:30%"></span>
-        <span class="pin pin-main" style="left:52%;top:44%"></span>
-        <div class="place-card">
-          <div class="place-name">Sinu ettevõte</div>
-          <div class="place-rating"><b>4,9</b> <span class="stars">★★★★★</span> <span class="muted">(128)</span></div>
-          <div class="place-meta"><span class="open">Avatud</span> · Suletakse 19:00</div>
-          <div class="place-btns"><span>Juhised</span><span>Helista</span><span>Veebileht</span></div>
-        </div>
-      </div>
+  <section class="marquee" aria-label="Kellega töötame">
+    <div class="marquee-track">
+      <ul>
+        <li>Kohvikud</li><li>Ilusalongid</li><li>Autoteenindused</li><li>Juuksurid</li><li>Restoranid</li><li>Ehitusfirmad</li><li>Poed</li><li>Spordiklubid</li><li>Majutused</li>
+      </ul>
+      <ul aria-hidden="true">
+        <li>Kohvikud</li><li>Ilusalongid</li><li>Autoteenindused</li><li>Juuksurid</li><li>Restoranid</li><li>Ehitusfirmad</li><li>Poed</li><li>Spordiklubid</li><li>Majutused</li>
+      </ul>
     </div>
   </section>
 
+  <section class="intro">
+    <p class="reveal-words">Kui keegi otsib Google'ist “lähedal”, näeb ta esimesena kaarti. Kui sinu ettevõtet seal pole või profiil on poolik, läheb klient naabri juurde. Meie teeme nii, et ta jõuab sinuni.</p>
+  </section>
+
   <section id="teenused" class="services">
-    <div class="wrap">
-      <h2>Teenused</h2>
-      <p class="section-lead">Kolm asja, mida teeme hästi. Võid võtta ühe või kõik koos.</p>
+    <div class="services-side">
+      <h2 class="big-title">Teenused</h2>
+      <p class="side-text">Kolm asja, mida teeme hästi. Võid võtta ühe või kõik koos. Esimene konsultatsioon on tasuta.</p>
+      <a href="#kontakt" class="link-arrow">Küsi pakkumist
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+      </a>
+    </div>
 
-      <div class="service-list">
-        <article class="service">
-          <div class="service-head">
-            <svg class="service-icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="20" rx="3"/><path d="M3 10h26M8 29h16"/></svg>
+    <div class="service-list">
+      <article class="service">
+        <a href="#kontakt" class="service-link">
+          <div class="service-top">
             <h3>Veebilehe ehitus</h3>
+            <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
           </div>
-          <p>Kiire ja selge koduleht, mis töötab telefonis ja näitab kohe, mida teed, kus asud ja kuidas sinuga ühendust võtta.</p>
-          <ul>
-            <li>Disain sinu ettevõtte järgi, mitte valmisšabloon</li>
-            <li>Teenused, hinnad, kontakt ja kaart</li>
-            <li>Päringuvorm, mis saadab kirja otse sulle</li>
-            <li>Oma domeen ja turvaline https</li>
-          </ul>
-        </article>
-
-        <article class="service">
-          <div class="service-head">
-            <svg class="service-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4a12 12 0 1 0 12 12"/><path d="M28 4v7h-7"/><path d="M28 11A12 12 0 0 0 16 4"/></svg>
+          <p>Kiire ja selge koduleht, mis töötab telefonis ja näitab kohe, mida teed, kus asud ja kuidas sinuga ühendust võtta. Disain sinu ettevõtte järgi, päringuvorm, oma domeen ja turvaline https.</p>
+          <span class="rule"><span></span></span>
+        </a>
+      </article>
+      <article class="service">
+        <a href="#kontakt" class="service-link">
+          <div class="service-top">
             <h3>Veebilehe haldus</h3>
+            <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
           </div>
-          <p>Saadad meile sõnumi, meie teeme muudatuse. Sinu leht püsib värske ja töökorras, ilma et peaksid ise midagi õppima.</p>
-          <ul>
-            <li>Uued hinnad, pildid ja tekstid</li>
-            <li>Lahtiolekuajad ja pühade muudatused</li>
-            <li>Kontroll, et leht ja vorm töötavad</li>
-            <li>Väikesed täiendused jooksvalt</li>
-          </ul>
-        </article>
-
-        <article class="service service-feature">
-          <div class="service-head">
-            <svg class="service-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c-5 0-9 3.9-9 8.8C7 18.3 16 29 16 29s9-10.7 9-17.2C25 6.9 21 3 16 3z"/><circle cx="16" cy="12" r="3.5"/></svg>
-            <h3>Google Mapsi profiili korrastamine</h3>
+          <p>Saadad sõnumi, meie teeme muudatuse. Uued hinnad, pildid, tekstid ja lahtiolekuajad. Kontrollime, et leht ja vorm töötavad, ning teeme väikesed täiendused jooksvalt.</p>
+          <span class="rule"><span></span></span>
+        </a>
+      </article>
+      <article class="service">
+        <a href="#kontakt" class="service-link">
+          <div class="service-top">
+            <h3>Google Mapsi profiil</h3>
+            <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
           </div>
-          <p>Enamik kliente leiab kohaliku ettevõtte just Google Mapsist. Paneme su profiili korda, et see näeks usaldusväärne välja ja tõuseks otsingus.</p>
-          <ul>
-            <li>Õige aadress, telefon, lahtiolekuajad ja kategooria</li>
-            <li>Head pildid ja ettevõtte kirjeldus</li>
-            <li>Teenused ja tooted profiilile</li>
-            <li>Nõu, kuidas rohkem arvustusi saada</li>
-          </ul>
-        </article>
-      </div>
+          <p>Paneme su Google'i ettevõtteprofiili korda: õige aadress, telefon, lahtiolekuajad ja kategooria, head pildid, teenused ja kirjeldus. Anname nõu, kuidas koguda rohkem arvustusi ja tõusta kaardiotsingus.</p>
+          <span class="rule"><span></span></span>
+        </a>
+      </article>
     </div>
   </section>
 
   <section id="protsess" class="process">
-    <div class="wrap">
-      <h2>Kuidas töötame</h2>
-      <ol class="steps">
-        <li>
-          <h3>Räägime</h3>
-          <p>Kirjutad või helistad. Uurime, mida su ettevõte teeb ja mis praegu puudu on.</p>
-        </li>
-        <li>
-          <h3>Teeme pakkumise</h3>
-          <p>Saad selge hinna ja ajakava. Midagi ei alga enne, kui oled nõus.</p>
-        </li>
-        <li>
-          <h3>Paneme tööle</h3>
-          <p>Ehitame lehe või korrastame profiili ning näitame tulemust enne avaldamist.</p>
-        </li>
-        <li>
-          <h3>Hoiame korras</h3>
-          <p>Kui midagi muutub, saadad sõnumi ja meie uuendame.</p>
-        </li>
-      </ol>
-    </div>
+    <h2 class="big-title center">Protsess</h2>
+    <ol class="steps">
+      <li><span class="num">01</span><h3>Räägime</h3><p>Kirjutad või helistad. Uurime, mida su ettevõte teeb ja mis praegu puudu on.</p></li>
+      <li><span class="num">02</span><h3>Pakkumine</h3><p>Saad selge hinna ja ajakava. Midagi ei alga enne, kui oled nõus.</p></li>
+      <li><span class="num">03</span><h3>Teostus</h3><p>Ehitame lehe või korrastame profiili ja näitame tulemust enne avaldamist.</p></li>
+      <li><span class="num">04</span><h3>Hooldus</h3><p>Kui midagi muutub, saadad sõnumi ja meie uuendame.</p></li>
+    </ol>
   </section>
 
   <section id="meist" class="about">
-    <div class="wrap about-grid">
-      <h2>Meist</h2>
-      <div>
-        <p>Turundushub on Eesti õpilasfirma. Oleme noored, tunneme internetti ja tahame aidata kohalikel ettevõtetel seal paremini silma paista.</p>
-        <p>Töötame väikeettevõtetega: kohvikud, ilusalongid, töökojad, poed ja kõik, kelle kliendid tulevad lähedalt. Hinnad on õiglased ja suhtlus otsene.</p>
-      </div>
-    </div>
+    <h2 class="big-title">Meist</h2>
+    <p class="reveal-words">Turundushub on Eesti õpilasfirma. Oleme noored, tunneme internetti ja tahame, et kohalikud ettevõtted paistaksid seal sama hästi silma kui suured ketid. Hinnad on õiglased ja suhtlus otsene.</p>
   </section>
 
   <section id="kontakt" class="contact">
-    <div class="wrap contact-grid">
-      <div>
-        <h2>Küsi pakkumist</h2>
-        <p class="section-lead">Kirjuta paar lauset oma ettevõttest ja sellest, mida vajad. Vastame tavaliselt sama või järgmise päeva jooksul.</p>
-        <p class="contact-mail">Või kirjuta otse: <a href="mailto:of.turundushub@gmail.com">of.turundushub@gmail.com</a></p>
-      </div>
-
-      <form name="kontakt" method="POST" action="/aitah.html" data-netlify="true" netlify-honeypot="lisavali" class="form">
-        <input type="hidden" name="form-name" value="kontakt">
-        <p class="hp"><label>Ära täida seda: <input name="lisavali"></label></p>
-        <label>Nimi
-          <input type="text" name="nimi" autocomplete="name" required>
-        </label>
-        <label>E-post
-          <input type="email" name="email" autocomplete="email" required>
-        </label>
-        <label><span>Ettevõte <span class="opt">(valikuline)</span></span>
-          <input type="text" name="ettevote" autocomplete="organization">
-        </label>
-        <fieldset>
-          <legend>Mida vajad?</legend>
-          <label class="check"><input type="checkbox" name="teenus" value="Veebilehe ehitus"> Veebilehe ehitus</label>
-          <label class="check"><input type="checkbox" name="teenus" value="Veebilehe haldus"> Veebilehe haldus</label>
-          <label class="check"><input type="checkbox" name="teenus" value="Google Mapsi profiil"> Google Mapsi profiil</label>
-        </fieldset>
-        <label>Sõnum
-          <textarea name="sonum" rows="4" required></textarea>
-        </label>
-        <button type="submit" class="btn btn-primary">Saada päring</button>
-      </form>
+    <div class="contact-head">
+      <h2 class="mega">Räägime</h2>
+      <a class="mail" href="mailto:of.turundushub@gmail.com">of.turundushub@gmail.com</a>
     </div>
+
+    <form name="kontakt" method="POST" action="/aitah.html" data-netlify="true" netlify-honeypot="lisavali" class="form">
+      <input type="hidden" name="form-name" value="kontakt">
+      <p class="hp"><label>Ära täida seda: <input name="lisavali"></label></p>
+      <div class="field"><input id="f-nimi" type="text" name="nimi" placeholder=" " autocomplete="name" required><label for="f-nimi">Nimi</label></div>
+      <div class="field"><input id="f-email" type="email" name="email" placeholder=" " autocomplete="email" required><label for="f-email">E-post</label></div>
+      <div class="field"><input id="f-firma" type="text" name="ettevote" placeholder=" " autocomplete="organization"><label for="f-firma">Ettevõte</label></div>
+      <fieldset class="chips">
+        <legend>Mida vajad?</legend>
+        <label><input type="checkbox" name="teenus" value="Veebilehe ehitus"><span>Veebilehe ehitus</span></label>
+        <label><input type="checkbox" name="teenus" value="Veebilehe haldus"><span>Veebilehe haldus</span></label>
+        <label><input type="checkbox" name="teenus" value="Google Mapsi profiil"><span>Google Mapsi profiil</span></label>
+      </fieldset>
+      <div class="field field-wide"><textarea id="f-sonum" name="sonum" rows="3" placeholder=" " required></textarea><label for="f-sonum">Sõnum</label></div>
+      <button type="submit" class="btn btn-solid">Saada päring</button>
+    </form>
   </section>
 </main>
 
 <footer class="foot">
-  <div class="wrap foot-inner">
-    <span>© <span id="y">2026</span> Turundushub</span>
-    <a href="mailto:of.turundushub@gmail.com">of.turundushub@gmail.com</a>
-  </div>
+  <span>© <span id="y">2026</span> Turundushub</span>
+  <a href="mailto:of.turundushub@gmail.com">of.turundushub@gmail.com</a>
 </footer>
 
-<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="main.js" defer></script>
 </body>
 </html>
