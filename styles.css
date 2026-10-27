@@ -9,6 +9,7 @@
   --blue-ink: #ffffff;
   --pad: clamp(16px, 2.2vw, 32px);
   --wide: "Archivo", system-ui, sans-serif;
+  --serif: "Playfair Display", Georgia, serif;
 }
 
 * { box-sizing: border-box; }
@@ -20,8 +21,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--wide);
-  font-variation-settings: "wdth" 100;
-  font-size: 1.0625rem;
+    font-size: 1.0625rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -30,12 +30,12 @@ h1, h2, h3, p { margin: 0; }
 a { color: inherit; text-decoration: none; }
 :focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
 
-/* Wide uppercase display type */
+/* Display type: same high-contrast serif and wide tracking as the logo */
 .hero-title, .big-title, .mega, .service h3, .steps h3, .hero-list, .nav, .btn, .link-arrow, .marquee li, .num {
-  font-family: var(--wide);
-  font-variation-settings: "wdth" 125;
+  font-family: var(--serif);
   text-transform: uppercase;
 }
+.nav, .btn, .link-arrow, .num { letter-spacing: 0.2em !important; font-weight: 500 !important; }
 
 /* Glow light: follows the cursor, drifts on its own */
 .glow {
@@ -61,7 +61,7 @@ a { color: inherit; text-decoration: none; }
   backdrop-filter: blur(6px);
 }
 .logo {
-  justify-self: start;
+  justify-self: start; font-size: 1rem !important;
   font-family: "Playfair Display", serif; font-weight: 500;
   font-size: 0.92rem; line-height: 1.25; text-align: center; text-transform: uppercase;
   letter-spacing: 0.32em; margin-right: -0.32em; color: #fff;
@@ -87,8 +87,8 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-title {
   align-self: center;
-  font-size: clamp(3rem, 8vw, 9rem);
-  font-weight: 500; line-height: 0.92; letter-spacing: -0.02em;
+  font-size: clamp(3rem, 7.4vw, 8.4rem);
+  font-weight: 400; line-height: 1; letter-spacing: 0.04em;
   display: grid;
 }
 .line { display: block; overflow: hidden; padding-bottom: 0.04em; white-space: nowrap; }
@@ -102,7 +102,7 @@ a { color: inherit; text-decoration: none; }
 
 .hero-sub { padding-left: 18%; margin-top: 28px; }
 .hero-list {
-  display: grid; font-size: clamp(1.1rem, 2.1vw, 1.9rem); line-height: 1.15; font-weight: 400;
+  display: grid; font-size: clamp(0.95rem, 1.4vw, 1.25rem); line-height: 1.7; font-weight: 400; letter-spacing: 0.24em;
   opacity: 0; animation: fade 1s ease .8s forwards;
 }
 .hero-note {
@@ -127,7 +127,7 @@ a { color: inherit; text-decoration: none; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 .marquee ul { display: flex; list-style: none; margin: 0; padding: 0; }
 .marquee li {
-  font-size: clamp(1.4rem, 3vw, 2.6rem); font-weight: 300; color: var(--dim);
+  font-size: clamp(1.3rem, 2.6vw, 2.3rem); font-weight: 400; color: var(--dim); letter-spacing: 0.14em;
   padding: 0 28px; white-space: nowrap; display: flex; align-items: center;
 }
 .marquee li::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--blue); margin-left: 56px; }
@@ -136,15 +136,16 @@ a { color: inherit; text-decoration: none; }
 /* Scroll-lit text */
 .intro { padding: 22vh var(--pad); }
 .reveal-words {
-  font-size: clamp(1.6rem, 3.6vw, 3.2rem); line-height: 1.18; font-weight: 400;
-  letter-spacing: -0.01em; max-width: 26ch; margin-left: auto;
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3.4vw, 3rem); line-height: 1.22; font-weight: 400;
+  letter-spacing: 0; max-width: 26ch; margin-left: auto;
 }
 .intro .reveal-words { margin-right: 6%; }
 .reveal-words .w { color: var(--dim); transition: color .35s ease; }
 .reveal-words .w.on { color: var(--text); }
 
 /* Big section titles */
-.big-title { font-size: clamp(3rem, 8vw, 8rem); font-weight: 500; line-height: 0.9; letter-spacing: -0.02em; }
+.big-title { font-size: clamp(2.6rem, 6.6vw, 7rem); font-weight: 400; line-height: 1; letter-spacing: 0.08em; }
 .big-title.center { text-align: center; }
 
 /* Services: sticky side + list */
@@ -161,7 +162,7 @@ a { color: inherit; text-decoration: none; }
 .service-list { display: grid; }
 .service-link { display: block; padding: 44px 0 0; }
 .service-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
-.service h3 { font-size: clamp(1.4rem, 2.4vw, 2.1rem); font-weight: 500; line-height: 1.05; letter-spacing: -0.01em; }
+.service h3 { font-size: clamp(1.25rem, 2vw, 1.8rem); font-weight: 400; line-height: 1.2; letter-spacing: 0.1em; }
 .arrow { width: 34px; height: 34px; flex: none; fill: none; stroke: var(--text); stroke-width: 1.2; transition: transform .35s cubic-bezier(.16,1,.3,1), stroke .2s; }
 .service p { color: var(--muted); margin-top: 18px; max-width: 52ch; }
 .rule { display: block; position: relative; height: 1px; background: var(--line); margin-top: 44px; }
@@ -183,7 +184,7 @@ a { color: inherit; text-decoration: none; }
 .steps.in li:nth-child(3)::before { transition-delay: .3s; }
 .steps.in li:nth-child(4)::before { transition-delay: .45s; }
 .num { display: block; font-size: 0.85rem; color: var(--blue-light); margin-bottom: 40px; }
-.steps h3 { font-size: 1.35rem; font-weight: 500; }
+.steps h3 { font-size: 1.25rem; font-weight: 400; letter-spacing: 0.12em; }
 .steps p { color: var(--muted); margin-top: 12px; max-width: 28ch; }
 
 /* About */
@@ -193,10 +194,10 @@ a { color: inherit; text-decoration: none; }
 /* Contact */
 .contact { padding: 14vh var(--pad) 12vh; border-top: 1px solid var(--line); }
 .contact-head { text-align: center; }
-.mega { font-size: clamp(3.4rem, 15vw, 15rem); font-weight: 500; line-height: 0.85; letter-spacing: -0.03em; }
+.mega { font-size: clamp(3rem, 12.5vw, 13rem); font-weight: 400; line-height: 1; letter-spacing: 0.06em; margin-right: -0.06em; }
 .mail {
   display: inline-block; margin-top: 28px;
-  font-size: clamp(1.1rem, 2.4vw, 2rem); font-variation-settings: "wdth" 110;
+  font-size: clamp(1.1rem, 2.2vw, 1.8rem); letter-spacing: 0.02em;
   border-bottom: 1px solid var(--blue); padding-bottom: 4px; transition: color .2s;
 }
 .mail:hover { color: var(--blue-light); }
@@ -254,7 +255,7 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 600px) {
   .l1, .l2, .l3, .hero-sub { padding-left: 0; }
-  .hero-title { font-size: clamp(2rem, 10.5vw, 4rem); }
+  .hero-title { font-size: clamp(1.9rem, 10vw, 3.6rem); letter-spacing: 0.02em; }
   .steps { grid-template-columns: 1fr; }
   .top-cta { padding: 10px 16px; font-size: 0.75rem; }
   .scroll-hint { display: none; }
