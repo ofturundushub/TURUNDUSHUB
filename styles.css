@@ -293,7 +293,8 @@ a { color: inherit; text-decoration: none; }
 .pp-paper, .pp-layer { position: absolute; inset: 0; }
 .pp-piece { position: absolute; inset: 0; }
 .pp-fold { position: absolute; inset: 0; will-change: transform; }
-.pp-plane { position: fixed; z-index: 51; pointer-events: none; filter: drop-shadow(0 14px 22px rgba(0,0,0,.45)); will-change: transform; }
+.pp-plane { position: fixed; z-index: 51; pointer-events: none; filter: drop-shadow(0 10px 16px rgba(0,0,0,.4)); will-change: transform; }
+.pp-trail { will-change: transform, opacity; }
 .pp-plane svg { position: relative; display: block; width: 100%; height: 100%; }
 .pp-trail {
   position: absolute; right: 70%; top: 30%; width: 260%; height: 46%;

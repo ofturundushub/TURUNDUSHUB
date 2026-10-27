@@ -201,8 +201,8 @@
         { transform: `rotate(90deg) scale(${scale * 0.5})`, opacity: 0 },
       ], { duration: 220, easing: 'ease-in', fill: 'forwards' });
       await plane.animate([
-        { transform: 'rotate(-60deg) scale(.35, .1)', opacity: 0 },
-        { transform: 'rotate(-12deg) scale(1, 1)', opacity: 1 },
+        { transform: 'rotate(-40deg) scale(.35, .1)', opacity: 0 },
+        { transform: 'rotate(4deg) scale(1, 1)', opacity: 1 },
       ], { duration: 260, delay: 80, easing: 'cubic-bezier(.2,.9,.3,1.2)', fill: 'forwards' }).finished;
 
       const trail = plane.querySelector('.pp-trail');
@@ -229,28 +229,40 @@
       // resample evenly by distance so the speed is steady
       const cum = [0];
       for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
-      const total = cum[cum.length - 1], N = 90, kf = [];
-      let j = 0, prevAng = null;
+      const total = cum[cum.length - 1], N = 200, P = [];
+      let j = 0;
       for (let n = 0; n <= N; n++) {
         const d = (n / N) * total;
         while (j < cum.length - 2 && cum[j + 1] < d) j++;
         const f = (d - cum[j]) / ((cum[j + 1] - cum[j]) || 1);
-        const x = pts[j][0] + (pts[j + 1][0] - pts[j][0]) * f;
-        const y = pts[j][1] + (pts[j + 1][1] - pts[j][1]) * f;
-        let ang = Math.atan2(pts[j + 1][1] - pts[j][1], pts[j + 1][0] - pts[j][0]) * 180 / Math.PI;
-        if (prevAng !== null) { while (ang - prevAng > 180) ang -= 360; while (ang - prevAng < -180) ang += 360; }
-        prevAng = ang;
-        const sc = 1 - 0.45 * Math.max(0, (n / N - 0.6) / 0.4);
-        kf.push({ transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${(ang - 8).toFixed(1)}deg) scale(${sc.toFixed(3)})`, offset: n / N });
+        P.push([pts[j][0] + (pts[j + 1][0] - pts[j][0]) * f, pts[j][1] + (pts[j + 1][1] - pts[j][1]) * f]);
       }
-      kf[0] = { transform: 'translate(0px, 0px) rotate(-12deg) scale(1)', offset: 0 };
+      // smooth heading: central difference, unwrapped, then averaged
+      const raw = [];
+      for (let n = 0; n <= N; n++) {
+        const a = P[Math.max(0, n - 3)], b = P[Math.min(N, n + 3)];
+        let ang = Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI;
+        if (n) { const pr = raw[n - 1]; while (ang - pr > 180) ang -= 360; while (ang - pr < -180) ang += 360; }
+        raw.push(ang);
+      }
+      const kf = [];
+      for (let n = 0; n <= N; n++) {
+        let sum = 0, c = 0;
+        for (let k = -4; k <= 4; k++) { const m = n + k; if (m >= 0 && m <= N) { sum += raw[m]; c++; } }
+        const ang = sum / c;
+        const t = n / N;
+        const sc = 1 - 0.45 * Math.max(0, (t - 0.65) / 0.35);
+        kf.push({ transform: `translate(${P[n][0].toFixed(1)}px, ${P[n][1].toFixed(1)}px) rotate(${(ang - 8).toFixed(2)}deg) scale(${sc.toFixed(3)})`, offset: t });
+      }
+      kf[0].transform = 'translate(0px, 0px) rotate(4deg) scale(1)';
+      plane.style.filter = 'none';
       trail.getAnimations().forEach((a) => a.cancel());
       trail.animate([
         { opacity: 0, transform: 'scaleX(0)' },
         { opacity: 1, transform: 'scaleX(1)', offset: 0.2 },
         { opacity: 1, transform: 'scaleX(1.5)' },
-      ], { duration: 1700, easing: 'ease-out', fill: 'forwards' });
-      await plane.animate(kf, { duration: 1700, easing: 'cubic-bezier(.35,0,.55,1)', fill: 'forwards' }).finished;
+      ], { duration: 1250, easing: 'ease-out', fill: 'forwards' });
+      await plane.animate(kf, { duration: 1250, easing: 'cubic-bezier(.45,0,.75,.75)', fill: 'forwards' }).finished;
       plane.remove();
       stageEl.remove();
     };
