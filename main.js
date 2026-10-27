@@ -151,18 +151,17 @@
       await stageEl.animate([
         { opacity: 0, transform: `scale(${scale * 1.25})` },
         { opacity: 1, transform: `scale(${scale})` },
-      ], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).finished;
-      await wait(80);
+      ], { duration: 250, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).finished;
 
       // 1) top corners to the centre line
       await stage(paper, (l) => {
         piece(l, [[120, 0], [240, 120], [240, 320], [0, 320], [0, 120]], F);
         return Promise.all([
-          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 600),
-          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 600, 120),
+          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 380),
+          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 380, 60),
         ]);
       });
-      await wait(90);
+      await wait(40);
 
       // 2) the new edges to the centre line again
       await stage(paper, (l) => {
@@ -170,19 +169,19 @@
         piece(l, [[120, 0], [120, 120], [70.3, 120]], B);
         piece(l, [[120, 0], [120, 120], [169.7, 120]], B);
         return Promise.all([
-          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 600),
-          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 600, 120),
+          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 380),
+          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 380, 60),
         ]);
       });
-      await wait(90);
+      await wait(40);
 
       // 3) fold in half along the centre
       await stage(paper, (l) => {
         piece(l, [[120, 0], [120, 320], [0, 320], [0, 290]], F);
         piece(l, [[120, 0], [120, 170], [0, 290]], B);
-        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 650);
+        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 400);
       });
-      await wait(60);
+      
 
       // 4) nose first, blue trail behind, and away it goes
       const trail = document.createElement('div');
@@ -194,13 +193,13 @@
         { opacity: 0, transform: 'scaleY(0)' },
         { opacity: 1, transform: 'scaleY(1)', offset: 0.35 },
         { opacity: 1, transform: 'scaleY(1.4)' },
-      ], { duration: 1500, delay: 250, easing: 'ease-out', fill: 'forwards' });
+      ], { duration: 1000, delay: 120, easing: 'ease-out', fill: 'forwards' });
       await stageEl.animate([
         { transform: `scale(${scale})` },
         { transform: `translate(10px, 30px) rotate(90deg) scale(${k})`, offset: 0.22 },
         { transform: `translate(${dx * 0.3}px, ${dy * 0.1}px) rotate(76deg) scale(${k * 0.9})`, offset: 0.6 },
         { transform: `translate(${dx}px, ${dy}px) rotate(62deg) scale(${k * 0.55})` },
-      ], { duration: 1700, easing: 'cubic-bezier(.5,0,.6,1)', fill: 'forwards' }).finished;
+      ], { duration: 1100, easing: 'cubic-bezier(.5,0,.6,1)', fill: 'forwards' }).finished;
       stageEl.remove();
     };
 
