@@ -11,11 +11,33 @@
     document.querySelectorAll('a[href^="#"]').forEach((a) => {
       a.addEventListener('click', (e) => {
         const id = a.getAttribute('href');
-        if (id.length < 2) { e.preventDefault(); lenis.scrollTo(0); return; }
+        if (id.length < 2) { e.preventDefault(); lenis.scrollTo(0, { force: true }); return; }
         const el = document.querySelector(id);
-        if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -20 }); }
+        if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -20, force: true }); }
       });
     });
+  }
+
+  // Mobile menu
+  const menuBtn = document.querySelector('.menu-btn');
+  const mnav = document.getElementById('mnav');
+  if (menuBtn && mnav) {
+    const setMenu = (open) => {
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Sulge menüü' : 'Ava menüü');
+      document.body.classList.toggle('menu-open', open);
+      if (lenis) open ? lenis.stop() : lenis.start();
+      if (open) {
+        mnav.hidden = false;
+        requestAnimationFrame(() => mnav.classList.add('open'));
+      } else {
+        mnav.classList.remove('open');
+        setTimeout(() => { if (!mnav.classList.contains('open')) mnav.hidden = true; }, 300);
+      }
+    };
+    menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
+    mnav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') { setMenu(false); menuBtn.focus(); } });
   }
 
   // Split scroll-lit paragraphs into words

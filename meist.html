@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..700&family=Montserrat:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=25">
+<link rel="stylesheet" href="styles.css?v=26">
 </head>
 <body>
 
@@ -29,7 +29,18 @@
     <a href="index.html#kontakt">Kontakt</a>
   </nav>
   <a href="index.html#kontakt" class="btn btn-solid top-cta">Küsi pakkumist</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Ava menüü"><span></span><span></span><span></span></button>
 </header>
+
+<div class="mnav" id="mnav" hidden>
+  <nav class="mnav-links" aria-label="Mobiilimenüü">
+    <a href="index.html#teenused">Teenused</a>
+    <a href="index.html#protsess">Protsess</a>
+    <a href="meist.html" aria-current="page">Meist</a>
+    <a href="index.html#kontakt">Kontakt</a>
+  </nav>
+  <a href="index.html#kontakt" class="btn btn-solid mnav-cta">Küsi pakkumist</a>
+</div>
 
 <main>
   <section class="hero hero-page">
@@ -126,6 +137,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
-<script src="main.js?v=25" defer></script>
+<script src="main.js?v=26" defer></script>
 </body>
 </html>
