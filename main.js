@@ -151,17 +151,17 @@
       await stageEl.animate([
         { opacity: 0, transform: `scale(${scale * 1.25})` },
         { opacity: 1, transform: `scale(${scale})` },
-      ], { duration: 200, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).finished;
+      ], { duration: 160, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).finished;
 
       // 1) top corners to the centre line
       await stage(paper, (l) => {
         piece(l, [[120, 0], [240, 120], [240, 320], [0, 320], [0, 120]], F);
         return Promise.all([
-          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 220),
-          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 220, 30),
+          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 170),
+          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 170, 25),
         ]);
       });
-      await wait(20);
+      await wait(10);
 
       // 2) the new edges to the centre line again
       await stage(paper, (l) => {
@@ -169,17 +169,17 @@
         piece(l, [[120, 0], [120, 120], [70.3, 120]], B);
         piece(l, [[120, 0], [120, 120], [169.7, 120]], B);
         return Promise.all([
-          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 220),
-          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 220, 30),
+          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 170),
+          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 170, 25),
         ]);
       });
-      await wait(20);
+      await wait(10);
 
       // 3) fold in half along the centre
       await stage(paper, (l) => {
         piece(l, [[120, 0], [120, 320], [0, 320], [0, 290]], F);
         piece(l, [[120, 0], [120, 170], [0, 290]], B);
-        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 240);
+        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 190);
       });
       
 
@@ -203,14 +203,14 @@
       await plane.animate([
         { transform: 'rotate(-40deg) scale(.35, .1)', opacity: 0 },
         { transform: 'rotate(4deg) scale(1, 1)', opacity: 1 },
-      ], { duration: 200, delay: 60, easing: 'cubic-bezier(.2,.9,.3,1.2)', fill: 'forwards' }).finished;
+      ], { duration: 160, delay: 40, easing: 'cubic-bezier(.2,.9,.3,1.2)', fill: 'forwards' }).finished;
 
       const trail = plane.querySelector('.pp-trail');
       trail.animate([
         { opacity: 0, transform: 'scaleX(0)' },
         { opacity: 1, transform: 'scaleX(1)', offset: 0.35 },
         { opacity: 1, transform: 'scaleX(1.5)' },
-      ], { duration: 950, easing: 'ease-out', fill: 'forwards' });
+      ], { duration: 750, easing: 'ease-out', fill: 'forwards' });
       // smooth path: small dip, a full loop in the air, then out to the top right
       const L1 = Math.min(260, window.innerWidth * 0.2), h1 = 40;
       const R = Math.max(60, Math.min(110, window.innerHeight * 0.14));
@@ -261,8 +261,8 @@
         { opacity: 0, transform: 'scaleX(0)' },
         { opacity: 1, transform: 'scaleX(1)', offset: 0.2 },
         { opacity: 1, transform: 'scaleX(1.5)' },
-      ], { duration: 950, easing: 'ease-out', fill: 'forwards' });
-      await plane.animate(kf, { duration: 950, easing: 'cubic-bezier(.45,0,.75,.75)', fill: 'forwards' }).finished;
+      ], { duration: 750, easing: 'ease-out', fill: 'forwards' });
+      await plane.animate(kf, { duration: 750, easing: 'cubic-bezier(.45,0,.75,.75)', fill: 'forwards' }).finished;
       plane.remove();
       stageEl.remove();
     };
