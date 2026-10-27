@@ -9,6 +9,7 @@
     const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
     document.querySelectorAll('a[href^="#"]').forEach((a) => {
+      if (a.closest('.mnav')) return; // mobile menu links are handled below
       a.addEventListener('click', (e) => {
         const id = a.getAttribute('href');
         if (id.length < 2) { e.preventDefault(); lenis.scrollTo(0, { force: true }); return; }
@@ -36,7 +37,21 @@
       }
     };
     menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
-    mnav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    mnav.querySelectorAll('a').forEach((a) => a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      const el = href.startsWith('#') && href.length > 1 ? document.querySelector(href) : null;
+      setMenu(false);
+      if (!el) return; // other pages: normal navigation
+      e.preventDefault();
+      // wait until the menu is closed and scrolling is unlocked, then go
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        const header = document.querySelector('.top');
+        const top = el.getBoundingClientRect().top + window.scrollY - (header ? header.offsetHeight : 0) + 10;
+        if (lenis) lenis.scrollTo(top, { force: true });
+        else window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+        history.replaceState(null, '', href);
+      }));
+    }));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') { setMenu(false); menuBtn.focus(); } });
   }
 
