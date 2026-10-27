@@ -51,7 +51,7 @@
     const vh = window.innerHeight;
     lit.forEach((p) => {
       const r = p.getBoundingClientRect();
-      const t = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.35)));
+      const t = Math.min(1, Math.max(0, (vh * 0.9 - r.top) / (vh * 0.3 + r.height * 0.4)));
       const words = p.children;
       const n = Math.floor(t * words.length);
       for (let i = 0; i < words.length; i++) words[i].classList.toggle('on', i < n);
