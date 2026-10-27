@@ -151,17 +151,17 @@
       await stageEl.animate([
         { opacity: 0, transform: `scale(${scale * 1.25})` },
         { opacity: 1, transform: `scale(${scale})` },
-      ], { duration: 250, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).finished;
+      ], { duration: 200, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).finished;
 
       // 1) top corners to the centre line
       await stage(paper, (l) => {
         piece(l, [[120, 0], [240, 120], [240, 320], [0, 320], [0, 120]], F);
         return Promise.all([
-          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 380),
-          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 380, 60),
+          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 280),
+          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 280, 40),
         ]);
       });
-      await wait(40);
+      await wait(20);
 
       // 2) the new edges to the centre line again
       await stage(paper, (l) => {
@@ -169,37 +169,56 @@
         piece(l, [[120, 0], [120, 120], [70.3, 120]], B);
         piece(l, [[120, 0], [120, 120], [169.7, 120]], B);
         return Promise.all([
-          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 380),
-          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 380, 60),
+          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 280),
+          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 280, 40),
         ]);
       });
-      await wait(40);
+      await wait(20);
 
       // 3) fold in half along the centre
       await stage(paper, (l) => {
         piece(l, [[120, 0], [120, 320], [0, 320], [0, 290]], F);
         piece(l, [[120, 0], [120, 170], [0, 290]], B);
-        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 400);
+        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 300);
       });
       
 
-      // 4) nose first, blue trail behind, and away it goes
-      const trail = document.createElement('div');
-      trail.className = 'pp-trail';
-      stageEl.appendChild(trail);
-      const k = scale * 0.6;
-      const dx = window.innerWidth - cx + 300, dy = -(cy + 300);
+      // 4) wings open into a real paper plane, then it flies off with a blue trail
+      const plane = document.createElement('div');
+      plane.className = 'pp-plane';
+      const PW = 200 * scale * 0.85, PH = PW * 0.6;
+      plane.style.cssText = `width:${PW}px;height:${PH}px;left:${cx - PW / 2}px;top:${cy - PH / 2}px`;
+      plane.innerHTML = '<div class="pp-trail"></div>' +
+        '<svg viewBox="0 0 200 120" aria-hidden="true">' +
+        '<polygon points="196,58 6,12 80,61" fill="#dde5f7"/>' +
+        '<polygon points="196,58 80,61 98,84" fill="#a9bbe8"/>' +
+        '<polygon points="196,58 80,61 28,108" fill="#ffffff"/>' +
+        '<line x1="196" y1="58" x2="80" y2="61" stroke="#2f6bff" stroke-width="1.4"/>' +
+        '</svg>';
+      document.body.appendChild(plane);
+      stageEl.animate([
+        { transform: `scale(${scale})`, opacity: 1 },
+        { transform: `rotate(90deg) scale(${scale * 0.5})`, opacity: 0 },
+      ], { duration: 220, easing: 'ease-in', fill: 'forwards' });
+      await plane.animate([
+        { transform: 'rotate(-60deg) scale(.35, .1)', opacity: 0 },
+        { transform: 'rotate(-12deg) scale(1, 1)', opacity: 1 },
+      ], { duration: 260, delay: 80, easing: 'cubic-bezier(.2,.9,.3,1.2)', fill: 'forwards' }).finished;
+
+      const trail = plane.querySelector('.pp-trail');
       trail.animate([
-        { opacity: 0, transform: 'scaleY(0)' },
-        { opacity: 1, transform: 'scaleY(1)', offset: 0.35 },
-        { opacity: 1, transform: 'scaleY(1.4)' },
-      ], { duration: 1000, delay: 120, easing: 'ease-out', fill: 'forwards' });
-      await stageEl.animate([
-        { transform: `scale(${scale})` },
-        { transform: `translate(10px, 30px) rotate(90deg) scale(${k})`, offset: 0.22 },
-        { transform: `translate(${dx * 0.3}px, ${dy * 0.1}px) rotate(76deg) scale(${k * 0.9})`, offset: 0.6 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(62deg) scale(${k * 0.55})` },
-      ], { duration: 1100, easing: 'cubic-bezier(.5,0,.6,1)', fill: 'forwards' }).finished;
+        { opacity: 0, transform: 'scaleX(0)' },
+        { opacity: 1, transform: 'scaleX(1)', offset: 0.35 },
+        { opacity: 1, transform: 'scaleX(1.5)' },
+      ], { duration: 950, easing: 'ease-out', fill: 'forwards' });
+      const dx = window.innerWidth - cx + 300, dy = -(cy + 250);
+      await plane.animate([
+        { transform: 'translate(0,0) rotate(-12deg) scale(1)' },
+        { transform: `translate(${-dx * 0.03}px, 24px) rotate(-6deg) scale(1)`, offset: 0.2 },
+        { transform: `translate(${dx * 0.4}px, ${dy * 0.18}px) rotate(-20deg) scale(.85)`, offset: 0.6 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(-28deg) scale(.55)` },
+      ], { duration: 1000, easing: 'cubic-bezier(.5,0,.6,1)', fill: 'forwards' }).finished;
+      plane.remove();
       stageEl.remove();
     };
 

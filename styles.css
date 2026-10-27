@@ -293,12 +293,14 @@ a { color: inherit; text-decoration: none; }
 .pp-paper, .pp-layer { position: absolute; inset: 0; }
 .pp-piece { position: absolute; inset: 0; }
 .pp-fold { position: absolute; inset: 0; will-change: transform; }
+.pp-plane { position: fixed; z-index: 51; pointer-events: none; filter: drop-shadow(0 14px 22px rgba(0,0,0,.45)); will-change: transform; }
+.pp-plane svg { position: relative; display: block; width: 100%; height: 100%; }
 .pp-trail {
-  position: absolute; left: 55px; top: 260px; width: 70px; height: 560px; z-index: -1;
-  transform-origin: 50% 0; opacity: 0;
-  background: linear-gradient(to bottom, rgba(77,130,255,.95) 0%, rgba(47,107,255,.55) 35%, rgba(30,64,220,0) 100%);
-  border-radius: 50% 50% 45% 45% / 12% 12% 88% 88%;
-  filter: blur(12px);
+  position: absolute; right: 70%; top: 30%; width: 260%; height: 46%;
+  transform-origin: 100% 50%; opacity: 0;
+  background: linear-gradient(to left, rgba(90,140,255,.95) 0%, rgba(47,107,255,.5) 35%, rgba(30,64,220,0) 100%);
+  border-radius: 50%;
+  filter: blur(10px);
 }
 .sent { max-width: 920px; margin: 12vh auto 0; text-align: center; outline: none; }
 .sent.in { animation: fade .8s ease forwards; opacity: 0; }
