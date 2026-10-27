@@ -151,18 +151,18 @@
       await stageEl.animate([
         { opacity: 0, transform: `scale(${scale * 1.25})` },
         { opacity: 1, transform: `scale(${scale})` },
-      ], { duration: 700, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).finished;
-      await wait(250);
+      ], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).finished;
+      await wait(80);
 
       // 1) top corners to the centre line
       await stage(paper, (l) => {
         piece(l, [[120, 0], [240, 120], [240, 320], [0, 320], [0, 120]], F);
         return Promise.all([
-          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 1000),
-          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 1000, 280),
+          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 600),
+          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 600, 120),
         ]);
       });
-      await wait(300);
+      await wait(90);
 
       // 2) the new edges to the centre line again
       await stage(paper, (l) => {
@@ -170,45 +170,37 @@
         piece(l, [[120, 0], [120, 120], [70.3, 120]], B);
         piece(l, [[120, 0], [120, 120], [169.7, 120]], B);
         return Promise.all([
-          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 1000),
-          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 1000, 280),
+          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 600),
+          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 600, 120),
         ]);
       });
-      await wait(300);
+      await wait(90);
 
       // 3) fold in half along the centre
       await stage(paper, (l) => {
         piece(l, [[120, 0], [120, 320], [0, 320], [0, 290]], F);
         piece(l, [[120, 0], [120, 170], [0, 290]], B);
-        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 1100);
+        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 650);
       });
-      await wait(250);
+      await wait(60);
 
-      // 4) turn it nose-first, then fold the wing down
-      let wingDone;
-      await stage(paper, (l) => {
-        piece(l, [[120, 0], [120, 320], [70, 320]], B);
-        wingDone = () => fold(l, { region: [[120, 0], [70, 320], [0, 320], [0, 290]], origin: [120, 0], axis: [-50, 320], angle: 160 }, 800);
-        piece(l, [[120, 0], [70, 320], [0, 320], [0, 290]], B).classList.add('pp-wing-flat');
-        return Promise.resolve();
-      });
+      // 4) nose first, blue trail behind, and away it goes
+      const trail = document.createElement('div');
+      trail.className = 'pp-trail';
+      stageEl.appendChild(trail);
+      const k = scale * 0.6;
+      const dx = window.innerWidth - cx + 300, dy = -(cy + 300);
+      trail.animate([
+        { opacity: 0, transform: 'scaleY(0)' },
+        { opacity: 1, transform: 'scaleY(1)', offset: 0.35 },
+        { opacity: 1, transform: 'scaleY(1.4)' },
+      ], { duration: 1500, delay: 250, easing: 'ease-out', fill: 'forwards' });
       await stageEl.animate([
         { transform: `scale(${scale})` },
-        { transform: `translate(30px, 20px) rotate(90deg) scale(${scale * 0.7})` },
-      ], { duration: 900, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'forwards' }).finished;
-      paper.querySelector('.pp-wing-flat').remove();
-      await wingDone();
-      await wait(200);
-
-      // 5) fly away, calmly
-      const dx = window.innerWidth - cx + 260, dy = -(cy + 260);
-      const base = `rotate(90deg) scale(${scale * 0.7})`;
-      await stageEl.animate([
-        { transform: `translate(30px, 20px) ${base}` },
-        { transform: `translate(${-dx * 0.04 + 30}px, 60px) rotate(96deg) scale(${scale * 0.7})`, offset: 0.25 },
-        { transform: `translate(${dx * 0.35}px, ${dy * 0.12}px) rotate(78deg) scale(${scale * 0.62})`, offset: 0.6 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(62deg) scale(${scale * 0.4})` },
-      ], { duration: 2600, easing: 'cubic-bezier(.45,0,.4,1)', fill: 'forwards' }).finished;
+        { transform: `translate(10px, 30px) rotate(90deg) scale(${k})`, offset: 0.22 },
+        { transform: `translate(${dx * 0.3}px, ${dy * 0.1}px) rotate(76deg) scale(${k * 0.9})`, offset: 0.6 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(62deg) scale(${k * 0.55})` },
+      ], { duration: 1700, easing: 'cubic-bezier(.5,0,.6,1)', fill: 'forwards' }).finished;
       stageEl.remove();
     };
 
