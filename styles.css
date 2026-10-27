@@ -289,19 +289,10 @@ a { color: inherit; text-decoration: none; }
 .form { transition: opacity .35s ease, transform .35s ease; }
 .form.folding { opacity: 0; transform: scale(.96); pointer-events: none; }
 .form-error { grid-column: 1 / -1; color: #ff8a8a; font-size: .95rem; }
-.paper {
-  position: fixed; z-index: 50; pointer-events: none;
-  background: linear-gradient(135deg, #ffffff 0%, #eef2fb 100%);
-  box-shadow: 0 20px 60px rgba(0,0,0,.45);
-  padding: 34px 26px; box-sizing: border-box;
-  display: flex; flex-direction: column; gap: 14px;
-  transform-style: preserve-3d; will-change: clip-path, transform;
-}
-.paper i { display: block; height: 6px; border-radius: 3px; background: #d5ddf0; }
-.paper i:first-child { width: 55%; height: 10px; background: #2f6bff; opacity: .8; }
-.paper i:nth-child(3) { width: 80%; } .paper i:nth-child(5) { width: 65%; }
-.plane { position: fixed; z-index: 51; pointer-events: none; filter: drop-shadow(0 12px 20px rgba(0,0,0,.4)); will-change: transform; }
-.plane svg { display: block; width: 100%; height: auto; }
+.pp-stage { position: fixed; z-index: 50; width: 240px; height: 320px; pointer-events: none; transform-origin: 50% 50%; filter: drop-shadow(0 18px 30px rgba(0,0,0,.45)); }
+.pp-paper, .pp-layer { position: absolute; inset: 0; }
+.pp-piece { position: absolute; inset: 0; }
+.pp-fold { position: absolute; inset: 0; will-change: transform; }
 .sent { max-width: 920px; margin: 12vh auto 0; text-align: center; outline: none; }
 .sent.in { animation: fade .8s ease forwards; opacity: 0; }
 .sent-title {

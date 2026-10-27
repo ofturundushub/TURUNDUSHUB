@@ -91,63 +91,126 @@
       sent.focus({ preventScroll: true });
     };
 
-    const planeSVG = '<svg viewBox="0 0 120 80" aria-hidden="true">' +
-      '<path d="M2 40 L118 4 L70 76 L56 48 Z" fill="#ffffff"/>' +
-      '<path d="M56 48 L118 4 L44 44 Z" fill="#d9e3ff"/>' +
-      '<path d="M56 48 L60 66 L70 76 Z" fill="#b9c9f5"/>' +
-      '<path d="M2 40 L56 48" stroke="#2f6bff" stroke-width="1.2" fill="none"/>' +
-      '</svg>';
+    // Paper plane: real folds with 3D flaps, one step at a time
+    const W = 240, H = 320;
+    const F = '#ffffff', B = '#d6dff3';
+    const poly = (pts) => 'polygon(' + pts.map(([x, y]) => `${x}px ${y}px`).join(',') + ')';
+    const piece = (parent, pts, color) => {
+      const d = document.createElement('div');
+      d.className = 'pp-piece';
+      d.style.clipPath = poly(pts);
+      d.style.background = color;
+      parent.appendChild(d);
+      return d;
+    };
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const fold = (parent, f, dur, delay = 0) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'pp-fold';
+      wrap.style.transformOrigin = `${f.origin[0]}px ${f.origin[1]}px`;
+      piece(wrap, f.region, F);
+      (f.layers || []).forEach((l) => piece(wrap, l, B));
+      const cover = piece(wrap, f.region, B);
+      cover.style.opacity = 0;
+      parent.appendChild(wrap);
+      const [ax, ay] = f.axis, ang = f.angle || 180;
+      const easing = 'cubic-bezier(.65,0,.35,1)';
+      const a = wrap.animate([
+        { transform: `perspective(900px) rotate3d(${ax},${ay},0,0deg)`, filter: 'brightness(1)' },
+        { transform: `perspective(900px) rotate3d(${ax},${ay},0,${ang / 2}deg)`, filter: 'brightness(.78)', offset: .5 },
+        { transform: `perspective(900px) rotate3d(${ax},${ay},0,${ang}deg)`, filter: 'brightness(1)' },
+      ], { duration: dur, delay, easing, fill: 'forwards' });
+      if (ang >= 180) {
+        cover.animate([{ opacity: 0 }, { opacity: 0, offset: .5 }, { opacity: 1, offset: .5 }, { opacity: 1 }],
+          { duration: dur, delay, easing, fill: 'forwards' });
+      }
+      return a.finished;
+    };
+    const stage = (paper, build) => {
+      const layer = document.createElement('div');
+      layer.className = 'pp-layer';
+      paper.appendChild(layer);
+      const old = [...paper.children].filter((c) => c !== layer);
+      const p = build(layer);
+      old.forEach((c) => c.remove());
+      return p;
+    };
 
-    const fly = (rect) => new Promise((resolve) => {
-      const W = Math.min(300, rect.width * 0.6), H = W * 1.3;
+    const fly = async (rect) => {
       const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      const scale = Math.min(1.1, (rect.width * 0.5) / W, (window.innerHeight * 0.6) / H);
+      const stageEl = document.createElement('div');
+      stageEl.className = 'pp-stage';
+      stageEl.style.cssText = `left:${cx - W / 2}px;top:${cy - H / 2}px`;
+      const paper = document.createElement('div');
+      paper.className = 'pp-paper';
+      stageEl.appendChild(paper);
+      document.body.appendChild(stageEl);
 
-      const sheet = document.createElement('div');
-      sheet.className = 'paper';
-      sheet.style.cssText = `width:${W}px;height:${H}px;left:${cx - W / 2}px;top:${cy - H / 2}px`;
-      sheet.innerHTML = '<i></i><i></i><i></i><i></i><i></i><i></i>';
-      document.body.appendChild(sheet);
+      // the sheet appears
+      await stageEl.animate([
+        { opacity: 0, transform: `scale(${scale * 1.25})` },
+        { opacity: 1, transform: `scale(${scale})` },
+      ], { duration: 700, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).finished;
+      await wait(250);
 
-      const shapes = [
-        'polygon(0% 0%, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%)',
-        'polygon(0% 28%, 50% 0%, 100% 28%, 100% 100%, 50% 100%, 0% 100%)',
-        'polygon(18% 45%, 50% 0%, 82% 45%, 82% 100%, 50% 100%, 18% 100%)',
-        'polygon(38% 62%, 50% 0%, 62% 62%, 62% 100%, 50% 100%, 38% 100%)',
-      ];
-      const ease = 'cubic-bezier(.6,0,.3,1)';
-      // 1) sheet appears from the form
-      sheet.animate([{ opacity: 0, transform: 'scale(1.6)' }, { opacity: 1, transform: 'scale(1)' }],
-        { duration: 380, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' });
-      // 2) fold, fold, fold
-      const frames = shapes.map((c, i) => ({
-        clipPath: c,
-        transform: `scale(1) rotate(0deg) rotateY(${i % 2 ? 14 : -14}deg)`,
-        offset: (i / (shapes.length - 1)) * 0.8,
-      }));
-      frames.push({ clipPath: shapes[shapes.length - 1], transform: 'scale(.45) rotate(58deg) rotateY(0deg)', offset: 1 });
-      const folds = sheet.animate(frames, { duration: 1300, delay: 420, easing: ease, fill: 'forwards' });
-
-      folds.finished.then(() => {
-        // 3) becomes a plane and flies off the screen
-        const plane = document.createElement('div');
-        plane.className = 'plane';
-        plane.innerHTML = planeSVG;
-        const pw = 120;
-        plane.style.cssText = `width:${pw}px;left:${cx - pw / 2}px;top:${cy - pw / 3}px`;
-        document.body.appendChild(plane);
-        sheet.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, fill: 'forwards' });
-
-        const dx = window.innerWidth - cx + 200, dy = -(cy + 200);
-        const a = plane.animate([
-          { transform: 'translate(0,0) rotate(-30deg) scale(.6)', opacity: 0 },
-          { transform: 'translate(0,0) rotate(-20deg) scale(1)', opacity: 1, offset: 0.14 },
-          { transform: `translate(${-dx * 0.08}px, ${30}px) rotate(-8deg) scale(1)`, offset: 0.32 },
-          { transform: `translate(${dx * 0.45}px, ${dy * 0.25}px) rotate(-24deg) scale(.85)`, offset: 0.65 },
-          { transform: `translate(${dx}px, ${dy}px) rotate(-32deg) scale(.55)`, opacity: 1 },
-        ], { duration: 1500, easing: 'cubic-bezier(.45,0,.55,1)', fill: 'forwards' });
-        a.finished.then(() => { sheet.remove(); plane.remove(); resolve(); });
+      // 1) top corners to the centre line
+      await stage(paper, (l) => {
+        piece(l, [[120, 0], [240, 120], [240, 320], [0, 320], [0, 120]], F);
+        return Promise.all([
+          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 1000),
+          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 1000, 280),
+        ]);
       });
-    });
+      await wait(300);
+
+      // 2) the new edges to the centre line again
+      await stage(paper, (l) => {
+        piece(l, [[120, 0], [240, 290], [240, 320], [0, 320], [0, 290]], F);
+        piece(l, [[120, 0], [120, 120], [70.3, 120]], B);
+        piece(l, [[120, 0], [120, 120], [169.7, 120]], B);
+        return Promise.all([
+          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 1000),
+          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 1000, 280),
+        ]);
+      });
+      await wait(300);
+
+      // 3) fold in half along the centre
+      await stage(paper, (l) => {
+        piece(l, [[120, 0], [120, 320], [0, 320], [0, 290]], F);
+        piece(l, [[120, 0], [120, 170], [0, 290]], B);
+        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 1100);
+      });
+      await wait(250);
+
+      // 4) turn it nose-first, then fold the wing down
+      let wingDone;
+      await stage(paper, (l) => {
+        piece(l, [[120, 0], [120, 320], [70, 320]], B);
+        wingDone = () => fold(l, { region: [[120, 0], [70, 320], [0, 320], [0, 290]], origin: [120, 0], axis: [-50, 320], angle: 160 }, 800);
+        piece(l, [[120, 0], [70, 320], [0, 320], [0, 290]], B).classList.add('pp-wing-flat');
+        return Promise.resolve();
+      });
+      await stageEl.animate([
+        { transform: `scale(${scale})` },
+        { transform: `translate(30px, 20px) rotate(90deg) scale(${scale * 0.7})` },
+      ], { duration: 900, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'forwards' }).finished;
+      paper.querySelector('.pp-wing-flat').remove();
+      await wingDone();
+      await wait(200);
+
+      // 5) fly away, calmly
+      const dx = window.innerWidth - cx + 260, dy = -(cy + 260);
+      const base = `rotate(90deg) scale(${scale * 0.7})`;
+      await stageEl.animate([
+        { transform: `translate(30px, 20px) ${base}` },
+        { transform: `translate(${-dx * 0.04 + 30}px, 60px) rotate(96deg) scale(${scale * 0.7})`, offset: 0.25 },
+        { transform: `translate(${dx * 0.35}px, ${dy * 0.12}px) rotate(78deg) scale(${scale * 0.62})`, offset: 0.6 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(62deg) scale(${scale * 0.4})` },
+      ], { duration: 2600, easing: 'cubic-bezier(.45,0,.4,1)', fill: 'forwards' }).finished;
+      stageEl.remove();
+    };
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
