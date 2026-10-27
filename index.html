@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..700&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
 
@@ -147,7 +147,12 @@
       </fieldset>
       <div class="field field-wide"><textarea id="f-sonum" name="sonum" rows="3" placeholder=" " required></textarea><label for="f-sonum">Sõnum</label></div>
       <button type="submit" class="btn btn-solid">Saada päring</button>
+      <p class="form-error" role="alert" hidden>Päringut ei õnnestunud saata. Proovi uuesti või kirjuta otse aadressile of.turundushub@gmail.com.</p>
     </form>
+    <div class="sent" hidden tabindex="-1">
+      <h3 class="sent-title">Päring saadetud</h3>
+      <p>Aitäh! Saime su sõnumi kätte ja vastame sama või järgmise päeva jooksul.</p>
+    </div>
   </section>
 </main>
 
@@ -157,6 +162,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
-<script src="main.js?v=8" defer></script>
+<script src="main.js?v=9" defer></script>
 </body>
 </html>
