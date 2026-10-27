@@ -271,6 +271,16 @@
       e.preventDefault();
       if (!form.reportValidity()) return;
       const fd = new FormData(form);
+      // one line for chosen services, and a unique subject so Gmail keeps every request separate
+      const services = fd.getAll('teenus');
+      fd.delete('teenus');
+      fd.set('teenus', services.length ? services.join(', ') : '-');
+      const now = new Date();
+      const stamp = now.toLocaleDateString('et-EE', { day: '2-digit', month: '2-digit' }) + ' ' +
+        now.toLocaleTimeString('et-EE', { hour: '2-digit', minute: '2-digit' });
+      const who = (fd.get('nimi') || '').toString().trim();
+      const firm = (fd.get('ettevote') || '').toString().trim();
+      fd.set('subject', `Uus päring: ${who}${firm ? ' (' + firm + ')' : ''} · ${stamp}`);
       const btn = form.querySelector('button[type="submit"]');
       btn.disabled = true;
       if (errBox) errBox.hidden = true;
