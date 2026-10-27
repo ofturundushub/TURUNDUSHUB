@@ -211,7 +211,7 @@
         { opacity: 1, transform: 'scaleX(1)', offset: 0.35 },
         { opacity: 1, transform: 'scaleX(1.5)' },
       ], { duration: 800, easing: 'ease-out', fill: 'forwards' });
-      // smooth path: small dip, a full loop in the air, then out to the top right
+      // smooth path: small dip, then a gentle curve out to the top right
       const L1 = Math.min(260, window.innerWidth * 0.2), h1 = 40;
       const R = Math.max(60, Math.min(110, window.innerHeight * 0.14));
       const ex = window.innerWidth - cx + 300, ey = -(cy + 260);
@@ -221,10 +221,6 @@
       };
       const pts = [];
       for (let i = 0; i <= 60; i++) pts.push(cub([0, 0], [L1 * 0.3, 30], [L1 * 0.6, -h1], [L1, -h1], i / 60));
-      for (let i = 1; i <= 90; i++) {
-        const ph = (i / 90) * Math.PI * 2;
-        pts.push([L1 + R * Math.sin(ph), -h1 - R + R * Math.cos(ph)]);
-      }
       for (let i = 1; i <= 80; i++) pts.push(cub([L1, -h1], [L1 + 220, -h1], [ex - 220, ey + 160], [ex, ey], i / 80));
       // resample evenly by distance so the speed is steady
       const cum = [0];
