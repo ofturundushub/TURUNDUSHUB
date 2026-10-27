@@ -211,13 +211,46 @@
         { opacity: 1, transform: 'scaleX(1)', offset: 0.35 },
         { opacity: 1, transform: 'scaleX(1.5)' },
       ], { duration: 950, easing: 'ease-out', fill: 'forwards' });
-      const dx = window.innerWidth - cx + 300, dy = -(cy + 250);
-      await plane.animate([
-        { transform: 'translate(0,0) rotate(-12deg) scale(1)' },
-        { transform: `translate(${-dx * 0.03}px, 24px) rotate(-6deg) scale(1)`, offset: 0.2 },
-        { transform: `translate(${dx * 0.4}px, ${dy * 0.18}px) rotate(-20deg) scale(.85)`, offset: 0.6 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(-28deg) scale(.55)` },
-      ], { duration: 1000, easing: 'cubic-bezier(.5,0,.6,1)', fill: 'forwards' }).finished;
+      // smooth path: small dip, a full loop in the air, then out to the top right
+      const L1 = Math.min(260, window.innerWidth * 0.2), h1 = 40;
+      const R = Math.max(60, Math.min(110, window.innerHeight * 0.14));
+      const ex = window.innerWidth - cx + 300, ey = -(cy + 260);
+      const cub = (p0, p1, p2, p3, t) => {
+        const u = 1 - t;
+        return [0, 1].map((i) => u * u * u * p0[i] + 3 * u * u * t * p1[i] + 3 * u * t * t * p2[i] + t * t * t * p3[i]);
+      };
+      const pts = [];
+      for (let i = 0; i <= 60; i++) pts.push(cub([0, 0], [L1 * 0.3, 30], [L1 * 0.6, -h1], [L1, -h1], i / 60));
+      for (let i = 1; i <= 90; i++) {
+        const ph = (i / 90) * Math.PI * 2;
+        pts.push([L1 + R * Math.sin(ph), -h1 - R + R * Math.cos(ph)]);
+      }
+      for (let i = 1; i <= 80; i++) pts.push(cub([L1, -h1], [L1 + 220, -h1], [ex - 220, ey + 160], [ex, ey], i / 80));
+      // resample evenly by distance so the speed is steady
+      const cum = [0];
+      for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+      const total = cum[cum.length - 1], N = 90, kf = [];
+      let j = 0, prevAng = null;
+      for (let n = 0; n <= N; n++) {
+        const d = (n / N) * total;
+        while (j < cum.length - 2 && cum[j + 1] < d) j++;
+        const f = (d - cum[j]) / ((cum[j + 1] - cum[j]) || 1);
+        const x = pts[j][0] + (pts[j + 1][0] - pts[j][0]) * f;
+        const y = pts[j][1] + (pts[j + 1][1] - pts[j][1]) * f;
+        let ang = Math.atan2(pts[j + 1][1] - pts[j][1], pts[j + 1][0] - pts[j][0]) * 180 / Math.PI;
+        if (prevAng !== null) { while (ang - prevAng > 180) ang -= 360; while (ang - prevAng < -180) ang += 360; }
+        prevAng = ang;
+        const sc = 1 - 0.45 * Math.max(0, (n / N - 0.6) / 0.4);
+        kf.push({ transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${(ang - 8).toFixed(1)}deg) scale(${sc.toFixed(3)})`, offset: n / N });
+      }
+      kf[0] = { transform: 'translate(0px, 0px) rotate(-12deg) scale(1)', offset: 0 };
+      trail.getAnimations().forEach((a) => a.cancel());
+      trail.animate([
+        { opacity: 0, transform: 'scaleX(0)' },
+        { opacity: 1, transform: 'scaleX(1)', offset: 0.2 },
+        { opacity: 1, transform: 'scaleX(1.5)' },
+      ], { duration: 1700, easing: 'ease-out', fill: 'forwards' });
+      await plane.animate(kf, { duration: 1700, easing: 'cubic-bezier(.35,0,.55,1)', fill: 'forwards' }).finished;
       plane.remove();
       stageEl.remove();
     };
