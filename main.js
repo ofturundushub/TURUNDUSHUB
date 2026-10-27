@@ -157,8 +157,8 @@
       await stage(paper, (l) => {
         piece(l, [[120, 0], [240, 120], [240, 320], [0, 320], [0, 120]], F);
         return Promise.all([
-          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 280),
-          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 280, 40),
+          fold(l, { region: [[0, 0], [120, 0], [0, 120]], origin: [120, 0], axis: [-1, 1] }, 220),
+          fold(l, { region: [[120, 0], [240, 0], [240, 120]], origin: [120, 0], axis: [-1, -1] }, 220, 30),
         ]);
       });
       await wait(20);
@@ -169,8 +169,8 @@
         piece(l, [[120, 0], [120, 120], [70.3, 120]], B);
         piece(l, [[120, 0], [120, 120], [169.7, 120]], B);
         return Promise.all([
-          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 280),
-          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 280, 40),
+          fold(l, { region: [[120, 0], [0, 120], [0, 290]], layers: [[[120, 0], [70.3, 120], [0, 120]]], origin: [120, 0], axis: [-120, 290] }, 220),
+          fold(l, { region: [[120, 0], [240, 120], [240, 290]], layers: [[[120, 0], [169.7, 120], [240, 120]]], origin: [120, 0], axis: [-120, -290] }, 220, 30),
         ]);
       });
       await wait(20);
@@ -179,7 +179,7 @@
       await stage(paper, (l) => {
         piece(l, [[120, 0], [120, 320], [0, 320], [0, 290]], F);
         piece(l, [[120, 0], [120, 170], [0, 290]], B);
-        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 300);
+        return fold(l, { region: [[120, 0], [240, 290], [240, 320], [120, 320]], layers: [[[120, 0], [240, 290], [120, 170]]], origin: [120, 0], axis: [0, -1] }, 240);
       });
       
 
@@ -203,7 +203,7 @@
       await plane.animate([
         { transform: 'rotate(-40deg) scale(.35, .1)', opacity: 0 },
         { transform: 'rotate(4deg) scale(1, 1)', opacity: 1 },
-      ], { duration: 260, delay: 80, easing: 'cubic-bezier(.2,.9,.3,1.2)', fill: 'forwards' }).finished;
+      ], { duration: 200, delay: 60, easing: 'cubic-bezier(.2,.9,.3,1.2)', fill: 'forwards' }).finished;
 
       const trail = plane.querySelector('.pp-trail');
       trail.animate([
@@ -261,8 +261,8 @@
         { opacity: 0, transform: 'scaleX(0)' },
         { opacity: 1, transform: 'scaleX(1)', offset: 0.2 },
         { opacity: 1, transform: 'scaleX(1.5)' },
-      ], { duration: 1250, easing: 'ease-out', fill: 'forwards' });
-      await plane.animate(kf, { duration: 1250, easing: 'cubic-bezier(.45,0,.75,.75)', fill: 'forwards' }).finished;
+      ], { duration: 950, easing: 'ease-out', fill: 'forwards' });
+      await plane.animate(kf, { duration: 950, easing: 'cubic-bezier(.45,0,.75,.75)', fill: 'forwards' }).finished;
       plane.remove();
       stageEl.remove();
     };
