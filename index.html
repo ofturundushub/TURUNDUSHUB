@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..700&family=Montserrat:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=22">
+<link rel="stylesheet" href="styles.css?v=23">
 </head>
 <body>
 
@@ -133,10 +133,12 @@
       <a class="mail" href="mailto:of.turundushub@gmail.com">of.turundushub@gmail.com</a>
     </div>
 
-    <form name="kontakt" method="POST" action="/aitah.html" data-netlify="true" netlify-honeypot="lisavali" class="form">
-      <input type="hidden" name="form-name" value="kontakt">
-      <input type="hidden" name="subject" value="Uus päring turundushub.ee lehelt" data-remove-prefix>
-      <p class="hp"><label>Ära täida seda: <input name="lisavali"></label></p>
+    <form name="kontakt" method="POST" action="https://api.web3forms.com/submit" class="form">
+      <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY">
+      <input type="hidden" name="subject" value="Uus päring turundushub.ee lehelt">
+      <input type="hidden" name="from_name" value="Turundushub.ee">
+      <input type="hidden" name="redirect" value="https://turundushub.ee/aitah.html">
+      <p class="hp"><label>Ära täida seda: <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label></p>
       <div class="field"><input id="f-nimi" type="text" name="nimi" placeholder=" " autocomplete="name" required><label for="f-nimi">Nimi</label></div>
       <div class="field"><input id="f-email" type="email" name="email" placeholder=" " autocomplete="email" required><label for="f-email">E-post</label></div>
       <div class="field"><input id="f-firma" type="text" name="ettevote" placeholder=" " autocomplete="organization"><label for="f-firma">Ettevõte</label></div>
@@ -163,6 +165,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
-<script src="main.js?v=22" defer></script>
+<script src="main.js?v=23" defer></script>
 </body>
 </html>

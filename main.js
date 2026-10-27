@@ -77,12 +77,19 @@
   const sent = document.querySelector('.sent');
   const errBox = form && form.querySelector('.form-error');
   if (form && sent) {
-    const encode = (fd) => new URLSearchParams(fd).toString();
-    const post = (fd) => fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encode(fd),
-    }).then((r) => { if (!r.ok) throw new Error(r.status); });
+    // Web3Forms: sends each request to the company inbox
+    const post = (fd) => {
+      if (fd.get('botcheck')) return Promise.resolve();
+      fd.delete('botcheck');
+      fd.delete('redirect');
+      const data = Object.fromEntries(fd.entries());
+      data.replyto = data.email;
+      return fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(data),
+      }).then((r) => r.json()).then((j) => { if (!j.success) throw new Error(j.message || 'error'); });
+    };
 
     const showSent = () => {
       form.hidden = true;
