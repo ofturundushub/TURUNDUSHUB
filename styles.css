@@ -267,3 +267,20 @@ a { color: inherit; text-decoration: none; }
   .reveal-words .w { color: var(--text); }
   .steps li::before { transform: scaleX(1); transition: none; }
 }
+
+/* Meist teaser on the home page */
+.about-teaser { display: grid; gap: 40px; justify-items: start; }
+.about-teaser .reveal-words { margin-left: 0; }
+
+/* Meist page */
+.hero-page { min-height: 92svh; grid-template-rows: 1fr auto; }
+.nav a[aria-current="page"] { color: var(--text); }
+.why-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 6vw; align-items: start; }
+.why-grid .reveal-words { margin-left: 0; max-width: 22ch; }
+.why-text { display: grid; gap: 20px; color: var(--muted); font-size: 1.1rem; max-width: 48ch; padding-top: 10px; }
+.contact-sub { color: var(--muted); margin-top: 24px; font-size: 1.15rem; }
+.btn-big { margin-top: 40px; padding: 18px 34px; font-size: 1rem; }
+.services .service-link:not(a) { cursor: default; }
+@media (max-width: 960px) {
+  .why-grid { grid-template-columns: 1fr; }
+}
