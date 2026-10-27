@@ -210,7 +210,7 @@
         { opacity: 0, transform: 'scaleX(0)' },
         { opacity: 1, transform: 'scaleX(1)', offset: 0.35 },
         { opacity: 1, transform: 'scaleX(1.5)' },
-      ], { duration: 700, easing: 'ease-out', fill: 'forwards' });
+      ], { duration: 800, easing: 'ease-out', fill: 'forwards' });
       // smooth path: small dip, a full loop in the air, then out to the top right
       const L1 = Math.min(260, window.innerWidth * 0.2), h1 = 40;
       const R = Math.max(60, Math.min(110, window.innerHeight * 0.14));
@@ -261,8 +261,8 @@
         { opacity: 0, transform: 'scaleX(0)' },
         { opacity: 1, transform: 'scaleX(1)', offset: 0.2 },
         { opacity: 1, transform: 'scaleX(1.5)' },
-      ], { duration: 700, easing: 'ease-out', fill: 'forwards' });
-      await plane.animate(kf, { duration: 700, easing: 'cubic-bezier(.45,0,.75,.75)', fill: 'forwards' }).finished;
+      ], { duration: 800, easing: 'ease-out', fill: 'forwards' });
+      await plane.animate(kf, { duration: 800, easing: 'cubic-bezier(.45,0,.75,.75)', fill: 'forwards' }).finished;
       plane.remove();
       stageEl.remove();
     };
