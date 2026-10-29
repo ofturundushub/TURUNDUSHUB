@@ -345,3 +345,15 @@ body.menu-open { overflow: hidden; }
   .menu-btn { display: flex; }
 }
 @media (min-width: 961px) { .mnav { display: none !important; } }
+
+/* Tiim */
+.team-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+.member-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 4px; background: #121a2b; border: 1px solid var(--line); }
+.member-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); transition: filter .5s ease, transform .8s cubic-bezier(.16,1,.3,1); }
+.member-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,15,25,0) 55%, rgba(11,15,25,.55) 100%); pointer-events: none; }
+.member:hover .member-photo img { filter: grayscale(0) contrast(1); transform: scale(1.03); }
+.member h3 { font-family: var(--wide); font-weight: 500; font-size: 1.15rem; margin-top: 18px; letter-spacing: .01em; }
+.member p { color: var(--muted); margin-top: 6px; font-size: .95rem; }
+.member p::before { content: ""; display: inline-block; width: 18px; height: 1px; background: var(--blue); vertical-align: middle; margin-right: 10px; }
+@media (max-width: 960px) { .team-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; } }
+@media (hover: none) { .member-photo img { filter: none; } }
