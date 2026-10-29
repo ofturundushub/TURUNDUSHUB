@@ -340,3 +340,67 @@
     });
   }
 })();
+
+/* Intro: animated map search */
+(() => {
+  const viz = document.querySelector('.mapviz');
+  if (!viz) return;
+  const card = viz.querySelector('.mapviz-card');
+  const q = viz.querySelector('.mv-query');
+  const stars = [...viz.querySelectorAll('.mv-stars i')];
+  const num = viz.querySelector('.mv-num');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const TEXT = 'kohvik lähedal';
+  const STATES = ['s-pins', 's-you', 's-route', 's-card', 's-rank', 's-out'];
+  let timers = [], running = false, visible = false;
+  const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+  const reset = () => {
+    timers.forEach(clearTimeout); timers = [];
+    viz.classList.remove(...STATES);
+    q.textContent = ''; num.textContent = '0';
+    stars.forEach((s) => s.classList.remove('on'));
+  };
+  const finalState = () => {
+    q.textContent = TEXT; num.textContent = '128';
+    stars.forEach((s) => s.classList.add('on'));
+    viz.classList.add('s-pins', 's-you', 's-route', 's-card', 's-rank');
+  };
+  const play = () => {
+    reset(); running = true;
+    [...TEXT].forEach((ch, i) => at(300 + i * 70, () => { q.textContent += ch; }));
+    const t = 300 + TEXT.length * 70 + 250;
+    at(t, () => viz.classList.add('s-pins'));
+    at(t + 1100, () => viz.classList.add('s-you'));
+    at(t + 1700, () => viz.classList.add('s-route'));
+    at(t + 2600, () => {
+      viz.classList.add('s-card');
+      stars.forEach((s, i) => at(250 + i * 110, () => s.classList.add('on')));
+      const t0 = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / 1200);
+        num.textContent = Math.round(128 * (1 - Math.pow(1 - p, 3)));
+        if (p < 1 && running) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+    at(t + 3500, () => viz.classList.add('s-rank'));
+    at(t + 8000, () => viz.classList.add('s-out'));
+    at(t + 8700, () => { running = false; if (visible) play(); });
+  };
+  if (reduce) { finalState(); return; }
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    if (visible && !running) play();
+    if (!visible) { running = false; reset(); }
+  }, { threshold: 0.35 }).observe(viz);
+
+  if (matchMedia('(hover: hover)').matches) {
+    viz.addEventListener('pointermove', (e) => {
+      const r = viz.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.setProperty('--ry', `${x * 16}deg`);
+      card.style.setProperty('--rx', `${-y * 12}deg`);
+    });
+    viz.addEventListener('pointerleave', () => { card.style.removeProperty('--ry'); card.style.removeProperty('--rx'); });
+  }
+})();
