@@ -544,3 +544,19 @@ body.menu-open { overflow: hidden; }
 .sd-maps.p3 .m-acts span:first-child { background: var(--blue); border-color: var(--blue); color: #fff; }
 .sdemo { margin-top: 44px; width: min(100%, 470px); }
 @media (max-height: 820px) and (min-width: 961px) { .sdemo { width: min(100%, 400px); margin-top: 32px; } }
+
+/* Giant wordmark at the very bottom */
+.footmark { position: relative; overflow: hidden; padding: 2vw var(--pad) 0; line-height: .9; }
+.footmark::before { content: ""; position: absolute; left: 50%; bottom: -30%; width: 80%; height: 90%; transform: translateX(-50%); background: radial-gradient(ellipse at 50% 100%, rgba(47,107,255,.45), transparent 65%); filter: blur(30px); pointer-events: none; }
+.footmark-word {
+  position: relative; display: inline-flex;
+  font-family: "Montserrat", "Arial", sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: 12vw; letter-spacing: 0; white-space: nowrap; padding-bottom: 1.2vw;
+}
+.footmark-word .ch {
+  display: inline-block; transform: translateY(calc((1 - var(--p, 0)) * 105%));
+  background: linear-gradient(180deg, #ffffff 0%, #c9d6ff 45%, rgba(47,107,255,.55) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) { .footmark-word .ch { transform: none; } }

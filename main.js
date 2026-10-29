@@ -478,3 +478,32 @@
   tabs.forEach((t, i) => t.addEventListener('click', () => play(i)));
   addEventListener('resize', () => cur > -1 && moveBar(cur));
 })();
+
+/* Giant footer wordmark rises letter by letter */
+(() => {
+  const word = document.querySelector('.footmark-word');
+  if (!word) return;
+  const chars = [...word.textContent].map((c) => { const s = document.createElement('span'); s.className = 'ch'; s.textContent = c; return s; });
+  word.textContent = ''; chars.forEach((s) => word.appendChild(s));
+  const box = word.parentElement;
+  const n = chars.length;
+  const update = () => {
+    const r = box.getBoundingClientRect(), vh = innerHeight;
+    // 0 when the box top reaches the bottom of the screen, 1 when the box is fully in view
+    const prog = Math.min(1, Math.max(0, (vh - r.top) / (r.height * 1.1)));
+    chars.forEach((s, i) => {
+      const start = (i / n) * 0.45;
+      const p = Math.min(1, Math.max(0, (prog - start) / 0.55));
+      s.style.setProperty('--p', (1 - Math.pow(1 - p, 3)).toFixed(3));
+    });
+  };
+  const fit = () => {
+    word.style.fontSize = '100px';
+    const avail = box.clientWidth - parseFloat(getComputedStyle(box).paddingLeft) * 2;
+    word.style.fontSize = `${100 * avail / word.scrollWidth}px`;
+  };
+  addEventListener('scroll', update, { passive: true });
+  addEventListener('resize', () => { fit(); update(); });
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { fit(); update(); });
+  fit(); update();
+})();
