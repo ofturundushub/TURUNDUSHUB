@@ -507,3 +507,11 @@
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { fit(); update(); });
   fit(); update();
 })();
+
+/* Keep the services side sticky only when it fits on screen */
+(() => {
+  const side = document.querySelector('.services-side');
+  if (!side) return;
+  const check = () => side.classList.toggle('no-stick', side.offsetHeight > innerHeight - 140);
+  addEventListener('resize', check); addEventListener('load', check); check();
+})();
