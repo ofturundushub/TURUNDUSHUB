@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..700&family=Montserrat:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=30">
+<link rel="stylesheet" href="styles.css?v=31">
 </head>
 <body>
 
@@ -137,6 +137,50 @@
       <a href="#kontakt" class="link-arrow">Küsi pakkumist
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
       </a>
+
+      <div class="sdemo" aria-hidden="true">
+        <div class="sdemo-tabs"><span data-t="0">Ehitus</span><span data-t="1">Haldus</span><span data-t="2">Google Maps</span><i class="sdemo-tabbar"></i></div>
+        <div class="sdemo-screen">
+          <div class="sdemo-chrome"><i></i><i></i><i></i><span class="sdemo-url">sinuettevote.ee</span></div>
+
+          <!-- 1: build -->
+          <div class="sd-scene sd-build">
+            <div class="b-nav"><span class="b-logo"></span><span class="b-l"></span><span class="b-l"></span><span class="b-l"></span><span class="b-btn"></span></div>
+            <div class="b-hero">
+              <div class="b-copy"><span class="b-h">Hea kohv,<br>kiiresti.</span><span class="b-t"></span><span class="b-t short"></span><span class="b-cta">Broneeri laud</span></div>
+              <div class="b-img"></div>
+            </div>
+            <div class="b-cards"><span></span><span></span><span></span></div>
+            <span class="b-cursor"></span>
+          </div>
+
+          <!-- 2: maintenance -->
+          <div class="sd-scene sd-care">
+            <div class="c-head"><b>Menüü</b><span class="c-hours">E–R <em class="c-swap"><span>8–18</span><span>8–20</span></em></span></div>
+            <div class="c-row"><div class="c-img c-img1"></div><div class="c-txt"><b>Cappuccino</b><span>Kohvioad Etioopiast</span></div><div class="c-price"><span>3,20 €</span><span>3,50 €</span></div></div>
+            <div class="c-row"><div class="c-img c-img2"></div><div class="c-txt"><b>Kaneelisai</b><span>Värske, iga hommik</span></div><div class="c-price"><span>2,80 €</span><span>2,90 €</span></div></div>
+            <div class="c-row"><div class="c-img c-img3"></div><div class="c-txt"><b>Päevasupp</b><span class="c-new"><span>Tomatisupp</span><span>Kõrvitsasupp</span></span></div><div class="c-price"><span>5,50 €</span><span>5,90 €</span></div></div>
+            <div class="c-toast"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Leht uuendatud</div>
+          </div>
+
+          <!-- 3: maps profile -->
+          <div class="sd-scene sd-maps">
+            <div class="m-cover"><span></span><span></span><span></span></div>
+            <div class="m-body">
+              <b class="m-name"><span class="m-type"></span><i class="m-caret"></i></b>
+              <div class="m-rate"><span class="m-score">0,0</span><span class="m-stars"><i></i><i></i><i></i><i></i><i></i></span><span class="m-rev">(<span class="m-num">0</span>)</span></div>
+              <ul class="m-fields">
+                <li><span class="m-ico"></span><span class="m-k">Aadress</span><span class="m-v">Tartu mnt 12, Tallinn</span></li>
+                <li><span class="m-ico"></span><span class="m-k">Avatud</span><span class="m-v">Täna 8–20</span></li>
+                <li><span class="m-ico"></span><span class="m-k">Telefon</span><span class="m-v">+372 5555 0123</span></li>
+                <li><span class="m-ico"></span><span class="m-k">Koduleht</span><span class="m-v">sinuettevote.ee</span></li>
+              </ul>
+              <div class="m-acts"><span>Juhised</span><span>Helista</span><span>Koduleht</span></div>
+            </div>
+            <div class="m-badge">Profiil 100% täidetud</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="service-list">
@@ -231,6 +275,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
-<script src="main.js?v=30" defer></script>
+<script src="main.js?v=31" defer></script>
 </body>
 </html>

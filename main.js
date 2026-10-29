@@ -404,3 +404,75 @@
     viz.addEventListener('pointerleave', () => { card.style.removeProperty('--ry'); card.style.removeProperty('--rx'); });
   }
 })();
+
+/* Services: live demo screen */
+(() => {
+  const demo = document.querySelector('.sdemo');
+  if (!demo) return;
+  const scenes = [...demo.querySelectorAll('.sd-scene')];
+  const tabs = [...demo.querySelectorAll('.sdemo-tabs span')];
+  const bar = demo.querySelector('.sdemo-tabbar');
+  const url = demo.querySelector('.sdemo-url');
+  const services = [...document.querySelectorAll('#teenused .service')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NAME = 'Sinu ettevõte';
+  let timers = [], cur = -1, hovering = false, visible = false, done = false;
+  const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+  const P = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'];
+
+  const resetScene = (s) => {
+    s.classList.remove(...P);
+    s.querySelectorAll('.on').forEach((e) => e.classList.remove('on'));
+    s.querySelectorAll('.flash').forEach((e) => e.classList.remove('flash'));
+    const t = s.querySelector('.m-type'); if (t) t.textContent = '';
+    const n = s.querySelector('.m-num'); if (n) n.textContent = '0';
+    const sc = s.querySelector('.m-score'); if (sc) sc.textContent = '0,0';
+  };
+  const count = (el, to, ms, fmt) => {
+    const t0 = performance.now();
+    const step = (now) => { const p = Math.min(1, (now - t0) / ms); el.textContent = fmt(to * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  };
+  const add = (s, c) => s.classList.add(c);
+  const flash = (row) => { row.classList.add('flash'); at(700, () => row.classList.remove('flash')); };
+
+  const timelines = [
+    (s) => { at(500, () => add(s, 'p1')); at(1300, () => add(s, 'p2')); at(2100, () => add(s, 'p3')); at(2800, () => add(s, 'p4')); at(3600, () => add(s, 'p5')); at(4700, () => add(s, 'p6')); at(4950, () => s.classList.remove('p6')); return 6800; },
+    (s) => { const rows = s.querySelectorAll('.c-row');
+      at(700, () => { add(s, 'p1'); flash(rows[0]); }); at(1800, () => { add(s, 'p2'); flash(rows[1]); });
+      at(2900, () => add(s, 'p3')); at(3800, () => { add(s, 'p4'); flash(rows[2]); }); at(4700, () => add(s, 'p5')); return 6800; },
+    (s) => { const t = s.querySelector('.m-type');
+      [...NAME].forEach((ch, i) => at(400 + i * 60, () => { t.textContent += ch; }));
+      const lis = s.querySelectorAll('.m-fields li'); lis.forEach((li, i) => at(1400 + i * 380, () => li.classList.add('on')));
+      at(3000, () => add(s, 'p3'));
+      at(3500, () => { s.querySelectorAll('.m-stars i').forEach((st, i) => at(i * 110, () => st.classList.add('on')));
+        count(s.querySelector('.m-score'), 4.9, 900, (v) => v.toFixed(1).replace('.', ','));
+        count(s.querySelector('.m-num'), 214, 1200, (v) => Math.round(v)); });
+      at(4900, () => add(s, 'p5')); return 7000; },
+  ];
+  const URLS = ['sinuettevote.ee', 'sinuettevote.ee/menuu', 'google.com/maps'];
+
+  const moveBar = (i) => { const t = tabs[i]; bar.style.setProperty('--tx', `${t.offsetLeft}px`); bar.style.setProperty('--tw', `${t.offsetWidth}px`); };
+  const play = (i) => {
+    timers.forEach(clearTimeout); timers = [];
+    scenes.forEach(resetScene);
+    cur = i; demo.dataset.s = i; moveBar(i); url.textContent = URLS[i];
+    services.forEach((sv, k) => sv.classList.toggle('is-demo', k === i));
+    if (reduce) { scenes[i].classList.add(...P); scenes[i].querySelectorAll('.m-fields li').forEach((l) => l.classList.add('on')); return; }
+    done = false;
+    const len = timelines[i](scenes[i]);
+    at(len, () => { done = true; if (!hovering && visible) play((i + 1) % scenes.length); });
+  };
+
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    if (visible && cur === -1) play(0);
+    else if (visible && !hovering && done) play((cur + 1) % scenes.length);
+  }, { threshold: 0.3 }).observe(demo);
+
+  services.forEach((sv, i) => {
+    sv.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; hovering = true; if (cur !== i) play(i); });
+    sv.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'mouse') return; hovering = false; if (done && visible) at(1200, () => { if (!hovering && done) play((cur + 1) % scenes.length); }); });
+  });
+  addEventListener('resize', () => cur > -1 && moveBar(cur));
+})();
