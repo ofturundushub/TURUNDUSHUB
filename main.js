@@ -410,13 +410,13 @@
   const demo = document.querySelector('.sdemo');
   if (!demo) return;
   const scenes = [...demo.querySelectorAll('.sd-scene')];
-  const tabs = [...demo.querySelectorAll('.sdemo-tabs span')];
+  const tabs = [...demo.querySelectorAll('.sdemo-tabs button')];
   const bar = demo.querySelector('.sdemo-tabbar');
   const url = demo.querySelector('.sdemo-url');
   const services = [...document.querySelectorAll('#teenused .service')];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const NAME = 'Sinu ettevõte';
-  let timers = [], cur = -1, hovering = false, visible = false, done = false;
+  let timers = [], cur = -1, hovering = false, visible = false, done = false, picked = false;
   const at = (ms, fn) => timers.push(setTimeout(fn, ms));
   const P = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'];
 
@@ -458,21 +458,23 @@
     scenes.forEach(resetScene);
     cur = i; demo.dataset.s = i; moveBar(i); url.textContent = URLS[i];
     services.forEach((sv, k) => sv.classList.toggle('is-demo', k === i));
+    tabs.forEach((t, k) => t.setAttribute('aria-selected', k === i ? 'true' : 'false'));
     if (reduce) { scenes[i].classList.add(...P); scenes[i].querySelectorAll('.m-fields li').forEach((l) => l.classList.add('on')); return; }
     done = false;
     const len = timelines[i](scenes[i]);
-    at(len, () => { done = true; if (!hovering && visible) play((i + 1) % scenes.length); });
+    at(len, () => { done = true; if (!hovering && !picked && visible) play((i + 1) % scenes.length); });
   };
 
   new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
     if (visible && cur === -1) play(0);
-    else if (visible && !hovering && done) play((cur + 1) % scenes.length);
+    else if (visible && !hovering && !picked && done) play((cur + 1) % scenes.length);
   }, { threshold: 0.3 }).observe(demo);
 
   services.forEach((sv, i) => {
     sv.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; hovering = true; if (cur !== i) play(i); });
-    sv.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'mouse') return; hovering = false; if (done && visible) at(1200, () => { if (!hovering && done) play((cur + 1) % scenes.length); }); });
+    sv.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'mouse') return; hovering = false; if (done && visible && !picked) at(1200, () => { if (!hovering && !picked && done) play((cur + 1) % scenes.length); }); });
   });
+  tabs.forEach((t, i) => t.addEventListener('click', () => { picked = true; play(i); }));
   addEventListener('resize', () => cur > -1 && moveBar(cur));
 })();

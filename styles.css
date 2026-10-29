@@ -440,8 +440,10 @@ body.menu-open { overflow: hidden; }
 
 /* Services: live demo screen */
 .sdemo { margin-top: 56px; width: min(100%, 520px); }
-.sdemo-tabs { position: relative; display: flex; gap: 22px; margin-bottom: 14px; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; font-variation-settings: "wdth" 125; color: var(--dim); }
-.sdemo-tabs span { cursor: default; transition: color .3s; padding-bottom: 8px; }
+.sdemo-tabs { position: relative; display: flex; gap: 24px; margin-bottom: 14px; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; font-variation-settings: "wdth" 125; color: var(--dim); }
+.sdemo-tabs button { all: unset; cursor: pointer; transition: color .3s; padding: 4px 0 8px; }
+.sdemo-tabs button:hover { color: var(--muted); }
+.sdemo-tabs button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 3px; }
 .sdemo[data-s="0"] [data-t="0"], .sdemo[data-s="1"] [data-t="1"], .sdemo[data-s="2"] [data-t="2"] { color: var(--text); }
 .sdemo-tabbar { position: absolute; left: 0; bottom: 0; height: 2px; width: var(--tw, 40px); background: var(--blue); transform: translateX(var(--tx, 0)); transition: transform .5s cubic-bezier(.16,1,.3,1), width .5s cubic-bezier(.16,1,.3,1); }
 .sdemo-screen { position: relative; aspect-ratio: 16 / 11; border-radius: 14px; overflow: hidden; background: #0f1626; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px rgba(47,107,255,.45); }
