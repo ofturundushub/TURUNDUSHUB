@@ -475,6 +475,6 @@
     sv.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; hovering = true; if (cur !== i) play(i); });
     sv.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'mouse') return; hovering = false; if (done && visible && !picked) at(1200, () => { if (!hovering && !picked && done) play((cur + 1) % scenes.length); }); });
   });
-  tabs.forEach((t, i) => t.addEventListener('click', () => { picked = true; play(i); }));
+  tabs.forEach((t, i) => t.addEventListener('click', () => play(i)));
   addEventListener('resize', () => cur > -1 && moveBar(cur));
 })();
