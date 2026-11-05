@@ -237,7 +237,7 @@
         '<polygon points="196,58 6,12 80,61" fill="#dde5f7"/>' +
         '<polygon points="196,58 80,61 98,84" fill="#a9bbe8"/>' +
         '<polygon points="196,58 80,61 28,108" fill="#ffffff"/>' +
-        '<line x1="196" y1="58" x2="80" y2="61" stroke="#2f6bff" stroke-width="1.4"/>' +
+        '<line x1="196" y1="58" x2="80" y2="61" stroke="#ff2d2b" stroke-width="1.4"/>' +
         '</svg>';
       document.body.appendChild(plane);
       stageEl.animate([
